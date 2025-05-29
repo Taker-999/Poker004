@@ -1,0 +1,141 @@
+/*全体のレイアウト設定*/
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #2e2e2e;
+  font-family: sans-serif;
+}
+
+/*山札の表示位置*/
+.deck-area {
+  display: flex;
+  margin: 40px auto;
+  justify-content: center;
+}
+.deck-card {
+  position: relative; /* または削除 */
+  margin: 0 auto;
+}
+
+/* プレーヤーの手札、相手の手札*/
+#player-hand,
+.opponent-hand {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  /*margin-bottom: 80px; 下に余白追加でボタンとの重なりを防ぐ*/
+  /*padding-bottom: 40px;十分な下にスペース　
+
+#player-hand {
+  display: flex;
+  margin-top: 0;
+  margin-bottom: 140px;
+  justify-content: center;
+  position: relative;
+  gap: 10px;
+}
+
+.opponent-hand {
+  margin-top: 60px;
+  border: 2px dashed red; /* 位置確認用 */
+}
+/*カード画像*/
+.card {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: relative;
+  z-index: 30;
+}
+
+/*結果表示エリア*/
+#result-area {
+  color: white;
+  font-size:24px;
+  line-height: 1.4;
+  margin: 10px auto 15px auto;
+  text-align: center;
+  position: relative;
+  z-index: 1000;
+}
+
+/*ボタン群を画面下に配置（必要に応じて固定）*/
+.button-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background-color: #1c1c1c;
+  width: 100%;
+  box-sizing: border-box;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/*ボタン共通スタイル*/
+.button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border:none;
+  border-radius: 6px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.button:disabled{
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+/*カードを配るアニメーション*/
+@keyframes flyFromDeckToTop {
+  from{
+    transform: translate(0,0);
+    opacity: 0;
+  }
+  to{
+    transform: translate(-100px,-150px); /*相手の手札の方向へ*/
+    opacity: 1;
+  }
+}
+
+@keyframes flyFromDeckToBottom {
+  from{
+    transform: translate(0,0);
+    opacity: 0;
+  }
+  to{
+    transform: translate(-100px,150px);/*自分の手札の方向へ*/
+    opacity:1;
+  }
+}
+
+.card.deal-to-top{
+  animation: flyFromDeckToTop 0.4s ease-out forwards;
+}
+.card.deal-to-bottom{
+  animation: flyFromDeckToBottom 0.4s ease-out forwards;
+}
+.dealing {
+  transition: transform 0.5s ease-out;
+  z-index: 999;
+  pointer-events: none;
+  position: absolute;
+}
+.game-container{
+
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 120px;
+}
