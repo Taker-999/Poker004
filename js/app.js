@@ -54,6 +54,7 @@ cards.forEach((card,i)  => {
  document.querySelectorAll(".card.you").forEach(card => {
     card.addEventListener("click", () => {
     card.classList.toggle("selected");
+    new Audio("sounds/haifu.mp3").play();
         });
     });
 });
