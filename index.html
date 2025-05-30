@@ -60,6 +60,8 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     background-image: url('images/red.png');/*赤いカード画像*/
     background-size: cover;
+
+    transition: transform 0.2s ease;/*新設*/
   }
 
   .card.blue {
@@ -92,6 +94,12 @@
     background-color: lightgray;
     cursor: not-allowed;
   }
+  .card.selected {/*新設*/
+    transform: translateY(-10%);
+  }
+  .card.you{
+      margin-top: 20px; /*ちょっと手札カード位置を下げる*/
+    }
   @media (max-width: 600px){
     .card {
       width: 60px;  /*通常サイズの半分*/
@@ -108,9 +116,6 @@
     button {
       width: 90%;     /*横幅を広げる*/
       font-size: 1rem;/*小さめに*/
-    }
-    .card.you{
-      margin-top: 20px; /*ちょっと手札カード位置を下げる*/
     }
   }
 </style>

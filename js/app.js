@@ -50,7 +50,14 @@ cards.forEach((card,i)  => {
 });
  const result = judgeHand(cards);
   displayResult(result);
+
+ document.querySelectorAll(".card.you").forEach(card => {
+    card.addEventListener("click", () => {
+    card.classList.toggle("selected");
+        });
+    });
 });
+
 //Drawボタン：新しいカードを配る
 drawButton.addEventListener("click",()=>{
     drawCards();
