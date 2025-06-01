@@ -40,7 +40,6 @@ animateDealing(cards);//配るアニメーションの関数を呼び出す。�
 revealButton.disabled =false; //Revealボタンを有効に
 });
 
-
 //Revealボタン：表面を表示し、役を判定
 revealButton.addEventListener("click",() => {
 new Audio("sounds/haifu.mp3").play();//配布音を1回再生。
@@ -61,10 +60,48 @@ cards.forEach((card,i)  => {
 
 //Drawボタン：新しいカードを配る
 drawButton.addEventListener("click",()=>{
-    drawCards();
+const newDeck=[];
+    for(let i=0; i<52; i++){
+        newDeck.push({
+            index: i,
+            suit: Math.floor(i/13),
+            number:i % 13 + 1
+        });
+    }
+    for(let i= newDeck.length-1; i>0; i--){
+        const j =Math.floor(Math.random()*( i + 1));
+        [newDeck[i],newDeck[j]]=[newDeck[j],newDeck[i]];
+    }
+    const selectedIndices =[];
+    document.querySelectorAll(".card.you").forEach((card,i) => {
+        if(card.classList.contains("selected")) {
+            selectedIndices.push(i);
+        }
+    });
+    /*選ばれていないカードの情報を記録*/
+    const usedCardIndices = cards.map(c=>c.index);
+    const notSelectedIndices = cards
+    .filter((_,i) => !selectedIndices.includes(i))
+    .map(c => c.index);
+    /*選ばれたカードの枚数だけ、新しいカードを山札から引く*/
+    const drawnCards = [];
+    for (let i =0; drawnCards.length < selectedIndices.length; i++){
+        if(!notSelectedIndices.includes(newDeck[i].index)){
+            drawnCards.push(newDeck[i]);
+        }
+    }
+    /*カードを実際に入れ替える（差し替え） */
+    selectedIndices.forEach((cardIndex, i) => {
+        cards[cardIndex] = drawnCards[i];
+        const imgPath ="images/"+String(drawnCards[i].index).padStart(2,"0")+".png";
+        document.querySelectorAll(".card.you")[cardIndex].src =imgPath;
+        document.querySelectorAll(".card.you")[cardIndex].classList.remove("selected");
+    });
     new Audio("sounds/haifu.mp3").play();
-    const result =judgeHand(cards);
+    /*再度判定する */
+    const result = judgeHand(cards);
     displayResult(result);
+
 });
  /*console.log("draw時のカード", i, ":", card.index); // ← 追加！
  console.log("draw時のパス:", cardImage); // ← 追加！
@@ -72,7 +109,7 @@ drawButton.addEventListener("click",()=>{
  img.src = cardImage;
 });
 */
-function drawCards(){
+function dealCards(){
     const deck =[...Array(52)].map((_,i)=> new Card(i + 1));
     //シャッフル
     for(let i = deck.length -1 ; i>0 ; i--){
