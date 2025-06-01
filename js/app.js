@@ -98,10 +98,11 @@ const newDeck=[];
         document.querySelectorAll(".card.you")[cardIndex].classList.remove("selected");
     });
     new Audio("sounds/haifu.mp3").play();
-    /*再度判定する */
+    /*再度判定する 描写が終わってから結果表示*/
+    requestAnimationFrame(() => {
     const result = judgeHand(cards);
     displayResult(result);
-
+    }); 
 });
  /*console.log("draw時のカード", i, ":", card.index); // ← 追加！
  console.log("draw時のパス:", cardImage); // ← 追加！
