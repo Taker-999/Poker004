@@ -99,6 +99,7 @@ const newDeck=[];
     });
     new Audio("sounds/haifu.mp3").play();
     /*再度判定する 描写が終わってから結果表示*/
+    console.log("交換後の手札:", cards);/*追加*/
     requestAnimationFrame(() => {
     const result = judgeHand(cards);
     displayResult(result);
