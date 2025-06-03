@@ -62,11 +62,14 @@ cards.forEach((card,i)  => {
 drawButton.addEventListener("click",()=>{
 const newDeck=[];
     for(let i=0; i<52; i++){
-        newDeck.push({
+        /*newDeck.push({
             index: i,
             suit: Math.floor(i/13),
             number:i % 13 + 1
-        });
+            // 修正後：Cardクラスのインスタンスとして生成
+        */
+            newDeck.push(new Card(i + 1));
+        
     }
     for(let i= newDeck.length-1; i>0; i--){
         const j =Math.floor(Math.random()*( i + 1));
@@ -83,6 +86,7 @@ const newDeck=[];
     const notSelectedIndices = cards
     .filter((_,i) => !selectedIndices.includes(i))
     .map(c => c.index);
+
     /*選ばれたカードの枚数だけ、新しいカードを山札から引く*/
     const drawnCards = [];
     for (let i =0; drawnCards.length < selectedIndices.length; i++){
@@ -90,6 +94,7 @@ const newDeck=[];
             drawnCards.push(newDeck[i]);
         }
     }
+   
     /*カードを実際に入れ替える（差し替え） */
     selectedIndices.forEach((cardIndex, i) => {
         cards[cardIndex] = drawnCards[i];
