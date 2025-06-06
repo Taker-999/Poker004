@@ -1,6 +1,7 @@
 import Card from "./card.js";
 import { judgeHand } from "./judge.js";
 import Com from "./com.js";
+import Deck from "./deck.js";
 
 //ボタン・カード要素を取得
 const startButton = document.getElementById("start");
