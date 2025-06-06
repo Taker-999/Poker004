@@ -1,10 +1,12 @@
 import Card from "./card.js";
 import { judgeHand } from "./judge.js";
+import Com from "./com.js";
 
 //ボタン・カード要素を取得
 const startButton = document.getElementById("start");
 const revealButton =document.getElementById("reveal");
 const drawButton = document.getElementById("draw"); 
+const battleButton =document.getElementById("buttle!!");
 const nodes=document.querySelectorAll(".card.you");
 
 const playerCards = document.querySelectorAll('.card.you');//アニメーションでの追加
@@ -187,3 +189,30 @@ function dealFromDeckTo(fromImg,targetImg) {
 function displayResult(resultText){
     document.getElementById("result-area").innerText= resultText;
 }
+const deck =new Deck();//すでに定義済みのDeckクラスを使う
+deck.shuffle();//シャッフル済み前提
+
+//プレイヤーに5枚配る
+const playerHand =[];
+while (playerHand.length <5){
+    const card = deck.draw();
+    if(card) playerHand.push(card);
+}
+
+//Comを作成し、デッキを渡して手札を引かせる。
+const com =new Com(deck);
+com.drawHand();
+//⓷HTML にある #battle ボタンでイベント（相手手札を表示）設定：
+document.getElementById("battle").addEventListener("click",() => {
+    const comHand = com.getHand();
+    console.log("相手の手札:",comHand);
+
+    //表示部分(例: #com-handにカード名を表示)
+    const comHandDiv = document.getElementById("com-hand");
+    comHandDiv.innerHTML = "";//クリア
+
+    comHand.forEach(card => {
+        const cardEl =document.createElement("div");
+        comHandDiv.appendChild(cardEl);
+    });
+});
