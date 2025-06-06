@@ -213,7 +213,9 @@ document.getElementById("battle").addEventListener("click",() => {
     comHandDiv.innerHTML = "";//クリア
 
     comHand.forEach(card => {
-        const cardEl =document.createElement("div");
+        const cardEl =document.createElement("img");
+        cardEl.src = "images/"+String(card.index).padStart(2,"0")+".png";
+        cardEl.classList.add("card","opponent");
         comHandDiv.appendChild(cardEl);
     });
 });
