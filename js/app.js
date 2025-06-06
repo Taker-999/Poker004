@@ -214,7 +214,8 @@ document.getElementById("battle").addEventListener("click",() => {
 
     comHand.forEach(card => {
         const cardEl =document.createElement("img");
-        cardEl.src = "images/"+String(card.index).padStart(2,"0")+".png";
+        const index =String(card.index).padStart(2,"0");
+        cardEl.src = `images/${index}.png`;
         cardEl.classList.add("card","opponent");
         comHandDiv.appendChild(cardEl);
     });

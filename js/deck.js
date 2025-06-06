@@ -5,7 +5,7 @@ export class Deck {
         this.cards = [];
 
         for (let i=0; i < 52; i++) {
-            this.cards.push(new Card(i));
+            this.cards.push(new Card(i+1));
         }
     }
     shuffle() {
