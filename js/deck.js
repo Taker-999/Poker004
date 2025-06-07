@@ -1,13 +1,10 @@
 import Card from './card.js';
 
-export class Deck {
+ class Deck {
     constructor() {
-        this.cards = [];
-
-        for (let i=0; i < 52; i++) {
-            this.cards.push(new Card(i+1));
-        }
+        this.cards = [...Array(52)].map((_,i) => new Card(i+1));
     }
+
     shuffle() {
         for (let i=this.cards.length -1 ; i>0 ;i--) {
             const j = Math.floor(Math.random()*(i+1));
@@ -18,7 +15,7 @@ export class Deck {
     draw() {
         return this.cards.pop();//山札から１枚引く
     }
-    size() {
-        return this.cards.length;
+    isEmpty() {
+        return this.cards.length === 0;
     }
 }

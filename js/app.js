@@ -3,55 +3,54 @@ import { judgeHand } from "./judge.js";
 import Com from "./com.js";
 import { Deck } from "./deck.js";
 
+const deck =new Deck;
+deck.shuffle();
 //ボタン・カード要素を取得
 const startButton = document.getElementById("start");
 const revealButton =document.getElementById("reveal");
 const drawButton = document.getElementById("draw"); 
 const battleButton =document.getElementById("buttle!!");
-const nodes=document.querySelectorAll(".card.you");
 
 const playerCards = document.querySelectorAll('.card.you');//アニメーションでの追加
 const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
-let cards=[];
+const nodes=document.querySelectorAll(".card.you");
 
+let Deck;
+let cards=[];
+let Com;
+
+function setupGame(){
+    deck = new Deck();
+    deck.shuffle();
+    com =newCom(Deck);
+}
 //const distributesound =new Audio("sounds/haifu.mp3");//カード配布音を設定
 
 startButton.addEventListener("click", () => {
 
-const deck =[...Array(52)].map((_,i) =>new Card(i + 1));
-//シャッフル
-for(let i = deck.length -1; i>0 ; i--) {
- const j = Math.floor(Math.random() * ( i + 1));
-[deck[i], deck[j]] = [deck[j], deck[i]];
-}
-//上から５枚を使用（取り出す）
-cards=deck.slice(0, 5);
+    setupGame();
 
-/*
-//裏面画像を表示～表示すると初期の画面でカードが手札が表示されてしまう。
-nodes.forEach(img => {
-    img.src="images/blue.png";
-});
-*/
-//非表示にして準備
-[...playerCards,...opponentCards].forEach(card => {
-    card.style.opacity = 0;
+    cards =[];
+    for(let i=0; i<5 ;i++){
+        cards.push(deck.draw());
+    }
+
+    [playerCards, ...opponentCards].forEach(card.style.opacity =0);
+    animateDealing(cards);
+    revealButton.disabled =false;
 });
 
-animateDealing(cards);//配るアニメーションの関数を呼び出す。アニメーション開始。
-//distributesound.play();//配布音再生を実行
-revealButton.disabled =false; //Revealボタンを有効に
-});
+revealButton.addEventListener("click", ()=> {
+    new Audio("sounds/haifu.mp3").play();
 
-//Revealボタン：表面を表示し、役を判定
-revealButton.addEventListener("click",() => {
-new Audio("sounds/haifu.mp3").play();//配布音を1回再生。
-cards.forEach((card,i)  => {
- const imgPath = "images/"+ String(card.index).padStart(2,"0") + ".png";
- nodes[i].src = imgPath;
-});
- const result = judgeHand(cards);
-  displayResult(result);
+    cards.forEach((card, i) => {
+        const imgPath ="images/" + String(card.index).padStart(2,"0") + ".png";
+        nodes[i].src = imgPath;
+    });
+
+
+    const result = judgeHand(cards);
+    displayResult(result);
 
  document.querySelectorAll(".card.you").forEach(card => {
     card.addEventListener("click", () => {
@@ -62,56 +61,42 @@ cards.forEach((card,i)  => {
 });
 
 //Drawボタン：新しいカードを配る
-drawButton.addEventListener("click",()=>{
-const newDeck=[];
-    for(let i=0; i<52; i++){
-        /*newDeck.push({
-            index: i,
-            suit: Math.floor(i/13),
-            number:i % 13 + 1
-            // 修正後：Cardクラスのインスタンスとして生成
-        */
-            newDeck.push(new Card(i + 1));
-        
-    }
-    for(let i= newDeck.length-1; i>0; i--){
-        const j =Math.floor(Math.random()*( i + 1));
-        [newDeck[i],newDeck[j]]=[newDeck[j],newDeck[i]];
-    }
+drawButton.addEventListener("click",()=> {
     const selectedIndices =[];
     document.querySelectorAll(".card.you").forEach((card,i) => {
-        if(card.classList.contains("selected")) {
-            selectedIndices.push(i);
-        }
+        if(card.classList.contains("selected")) 
+            selectedIndices.push(i); 
     });
-    /*選ばれていないカードの情報を記録*/
-    const usedCardIndices = cards.map(c=>c.index);
-    const notSelectedIndices = cards
-    .filter((_,i) => !selectedIndices.includes(i))
-    .map(c => c.index);
 
-    /*選ばれたカードの枚数だけ、新しいカードを山札から引く*/
-    const drawnCards = [];
-    for (let i =0; drawnCards.length < selectedIndices.length; i++){
-        if(!notSelectedIndices.includes(newDeck[i].index)){
-            drawnCards.push(newDeck[i]);
-        }
-    }
-   
     /*カードを実際に入れ替える（差し替え） */
-    selectedIndices.forEach((cardIndex, i) => {
-        cards[cardIndex] = drawnCards[i];
-        const imgPath ="images/"+String(drawnCards[i].index).padStart(2,"0")+".png";
-        document.querySelectorAll(".card.you")[cardIndex].src =imgPath;
-        document.querySelectorAll(".card.you")[cardIndex].classList.remove("selected");
-    });
-    new Audio("sounds/haifu.mp3").play();
-    /*再度判定する 描写が終わってから結果表示*/
-    console.log("交換後の手札:", cards);/*追加*/
-    requestAnimationFrame(() => {
+    selectedIndices.forEach(index => {
+        let newCard;
+        do{
+            newCard =deck.draw();
+        }while(card.some(c => c.index === newCard.index));
+
+        cards[index]= newCard;
+
+        const imgPath ="images/"+String(newCard[i].index).padStart(2,"0")+".png";
+        nodes[index].src= imgPath;
+        nodes[index].classList.remove("selected");
+        
+       });
     const result = judgeHand(cards);
     displayResult(result);
     }); 
+
+    battleButton.addEventListener("click",()=> {
+    const comHand = com.getHand();
+    const comHandDiv = document.getElementById("com-hand");
+    comHandDiv.innerHTML = "";//クリア
+    comHand.forEach(card => {
+        const cardEl = document.createElement("img");
+        const index = String(card.index).padStart(2, "0");
+        cardEl.src = `images/${index}.png`;
+        cardEl.classList.add("card", "opponent");
+        comHandDiv.appendChild(cardEl);
+ });
 });
  /*console.log("draw時のカード", i, ":", card.index); // ← 追加！
  console.log("draw時のパス:", cardImage); // ← 追加！
@@ -119,6 +104,7 @@ const newDeck=[];
  img.src = cardImage;
 });
 */
+/*
 function dealCards(){
     const deck =[...Array(52)].map((_,i)=> new Card(i + 1));
     //シャッフル
@@ -190,8 +176,7 @@ function dealFromDeckTo(fromImg,targetImg) {
 function displayResult(resultText){
     document.getElementById("result-area").innerText= resultText;
 }
-const deck =new Deck();//すでに定義済みのDeckクラスを使う
-deck.shuffle();//シャッフル済み前提
+
 
 //プレイヤーに5枚配る
 const playerHand =[];
@@ -204,13 +189,7 @@ while (playerHand.length <5){
 const com =new Com(deck);
 com.drawHand();
 //⓷HTML にある #battle ボタンでイベント（相手手札を表示）設定：
-document.getElementById("battle").addEventListener("click",() => {
-    const comHand = com.getHand();
-    console.log("相手の手札:",comHand);
 
-    //表示部分(例: #com-handにカード名を表示)
-    const comHandDiv = document.getElementById("com-hand");
-    comHandDiv.innerHTML = "";//クリア
 
     comHand.forEach(card => {
         const cardEl =document.createElement("img");
@@ -219,4 +198,4 @@ document.getElementById("battle").addEventListener("click",() => {
         cardEl.classList.add("card","opponent");
         comHandDiv.appendChild(cardEl);
     });
-});
+*/
