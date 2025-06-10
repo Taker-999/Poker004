@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded",() => {
 const startButton = document.getElementById("start");
 const revealButton =document.getElementById("reveal");
 const drawButton = document.getElementById("draw"); 
-const battleButton =document.getElementById("buttle!!");
+const battleButton =document.getElementById("buttle");
 
 const playerCards = document.querySelectorAll('.card.you');//アニメーションでの追加
 const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
@@ -40,7 +40,9 @@ startButton.addEventListener("click", () => {
         cards.push(deck.draw());
     }
 
-    [playerCards, ...opponentCards].forEach(card.style.opacity =0);
+    [playerCards, ...opponentCards].forEach(card => {
+        card.style.opacity = 0;
+    });
     animateDealing(cards);
     revealButton.disabled =false;
 });
@@ -78,11 +80,11 @@ drawButton.addEventListener("click",()=> {
         let newCard;
         do{
             newCard =deck.draw();
-        }while(card.some(c => c.index === newCard.index));
+        }while(cards.some(c => c.index === newCard.index));
 
         cards[index]= newCard;
 
-        const imgPath ="images/"+String(newCard[i].index).padStart(2,"0")+".png";
+        const imgPath ="images/"+String(newCard.index).padStart(2,"0")+".png";
         nodes[index].src= imgPath;
         nodes[index].classList.remove("selected");
         
