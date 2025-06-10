@@ -3,7 +3,7 @@ import { judgeHand } from "./judge.js";
 import Com from "./com.js";
 import  Deck  from "./deck.js";
 
-const deck =new Deck;
+
 deck.shuffle();
 //ボタン・カード要素を取得
 const startButton = document.getElementById("start");
@@ -15,14 +15,14 @@ const playerCards = document.querySelectorAll('.card.you');//アニメーショ�
 const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
 const nodes=document.querySelectorAll(".card.you");
 
-let Deck;
+let deck;
 let cards=[];
 let Com;
 
 function setupGame(){
     deck = new Deck();
     deck.shuffle();
-    com =new Com(Deck);
+    com =new Com(deck);
 }
 //const distributesound =new Audio("sounds/haifu.mp3");//カード配布音を設定
 
