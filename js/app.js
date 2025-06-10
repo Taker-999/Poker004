@@ -3,9 +3,20 @@ import { judgeHand } from "./judge.js";
 import Com from "./com.js";
 import  Deck  from "./deck.js";
 
+let deck;
+let cards=[];
+let com;
 
-deck.shuffle();
+function setupGame(){
+    deck = new Deck();
+    deck.shuffle();
+    com =new Com(deck);
+}
+
 //ボタン・カード要素を取得
+document.addEventListener("DOMContentLoaded",() => {
+
+
 const startButton = document.getElementById("start");
 const revealButton =document.getElementById("reveal");
 const drawButton = document.getElementById("draw"); 
@@ -15,15 +26,9 @@ const playerCards = document.querySelectorAll('.card.you');//アニメーショ�
 const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
 const nodes=document.querySelectorAll(".card.you");
 
-let deck;
-let cards=[];
-let Com;
 
-function setupGame(){
-    deck = new Deck();
-    deck.shuffle();
-    com =new Com(deck);
-}
+
+
 //const distributesound =new Audio("sounds/haifu.mp3");//カード配布音を設定
 
 startButton.addEventListener("click", () => {
@@ -97,6 +102,7 @@ drawButton.addEventListener("click",()=> {
         cardEl.classList.add("card", "opponent");
         comHandDiv.appendChild(cardEl);
  });
+});
 });
  /*console.log("draw時のカード", i, ":", card.index); // ← 追加！
  console.log("draw時のパス:", cardImage); // ← 追加！
