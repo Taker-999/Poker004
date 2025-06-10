@@ -1,6 +1,6 @@
 import Card from './card.js';
 
- class Deck {
+ export default class Deck {
     constructor() {
         this.cards = [...Array(52)].map((_,i) => new Card(i+1));
     }

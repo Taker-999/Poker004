@@ -1,7 +1,7 @@
 import Card from "./card.js";
 import { judgeHand } from "./judge.js";
 import Com from "./com.js";
-import { Deck } from "./deck.js";
+import  Deck  from "./deck.js";
 
 const deck =new Deck;
 deck.shuffle();
