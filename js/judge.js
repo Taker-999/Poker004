@@ -1,45 +1,20 @@
 export function isOnepair(cards){ //ワンペア判定
-    const values = cards.map(card =>card.getValue());
+    const values = cards.map(card => card.getValue());
     const count = {};
 
     values.forEach(value => {
       count[value]=(count[value] || 0) +1;
-});
+    });
 
     const pairs =Object.values(count).filter(c => c ===2);
-    return pairs.length ===1;//1ペアある。
+    return pairs.length === 1;//1ペアある。
 }
 
 export function isFlush(cards){ //フラッシュ判定関数 フラッシュの手札はcardsとする。
     const suits =cards.map(card => card.getSuit());
     return suits.every(suit => suit === suits[0]);
 
-}/*
-export function isStraight(values){ //ストレート判定関数 ストレートの手札はvaluesとする。
-    const sorted =[...values].sort((a,b) => a - b);
-//ローストレート（A,2,3,4,5)のチェック
-    const lowAce =JSON.stringify(sorted) ===JSON.stringify([1,2,3,4,5]);
-    if(lowAce) return true;
-//ハイストレートのチェック（10,J,Q,K,A=10,11,12,13,14)
-//Aが含まれていたら、それを14とする。
-if(values.includes(1)){
-    const converted =values.map(v=> v===1? 14:v);
-    const sortedHighAce =converted.sort((a,b)=>a-b);
-    let isHighAceStraight =true;
-    for(let i=0;i < sortedHighAce.length-1; i++){
-        if(sortedHighAce[i+1]!==sortedHighAce[i]){
-            isHighAceStraight =false;
-            break;
-        }
-    }
-    if(isHighAceStraight) return true;
 }
-//通常のストレート
-    for(let i=0; i<sorted.length-1;i++)
-    if(sorted[i+1] !==sorted[i]+1){
-        return false;
-    }
-    return true;   */
     export function isStraight(values) {
         // 重複を除く（同じ数が複数あるとストレートではない）
         const unique = [...new Set(values)];
@@ -54,6 +29,10 @@ if(values.includes(1)){
         const lowAce = JSON.stringify(unique) === JSON.stringify([1, 2, 3, 4, 5]);
         if (lowAce) return true;
       
+        //ハイストレート対応（A-10-11-12-13)
+        const highAce = JSON.stringify(unique) === JSON.stringify([1,10,11,12,13]);
+        if(highAce) return true;
+
         // 通常のストレート（差がすべて1であるかを確認）
         for (let i = 0; i < 4; i++) {
           if (unique[i + 1] !== unique[i] + 1) return false;
@@ -67,18 +46,15 @@ export function isStraightFlush(cards){ //ストレートフラッシュ判定�
     return isFlush(cards)&& isStraight(values);
 }
 export function isRoyalFlush(cards){ //ロイヤルフラッシュ判定関数　
-    const values =cards.map(card => card.getValue()).sort((a,b) => a-b);
-    const suits  =cards.map(card => Math.floor((card.index-1)/13));
-
-    const isFlush =suits.every(suit => suit === suits[0]);
-    const isRoyal =JSON.stringify(values) === JSON.stringify([1,10,11,12,13]);
-
-    return isFlush && isRoyal;
+    const values =cards.map(card => card.getValue());
+    const isFrushHand =isFrush(cards);
+    const royalSet = new Set(values);
+    const isRoyal = [1,10,11,12,13].every(v => royalSet.has(v));
+    return isFrushHand && isRoyal;
 }
+
 export function judgeHand(cards){
-
-    const values =cards.map(card =>card.getValue());
-
+    const values =cards.map(card => card.getValue());
     //値の頻度を数える
     const count={};
     values.forEach(value => {
