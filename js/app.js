@@ -22,7 +22,7 @@ let Com;
 function setupGame(){
     deck = new Deck();
     deck.shuffle();
-    com =newCom(Deck);
+    com =new Com(Deck);
 }
 //const distributesound =new Audio("sounds/haifu.mp3");//カード配布音を設定
 

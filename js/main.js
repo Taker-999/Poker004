@@ -1,5 +1,5 @@
 import Card from "./card.js";
-import { Deck } from "./deck.js";
+import  Deck  from "./deck.js";
 
 const nodes = document.querySelectorAll(".card.you");
 const startButton = document.getElementById("startButton");
