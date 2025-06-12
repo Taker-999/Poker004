@@ -16,11 +16,10 @@ function setupGame(){
 //ボタン・カード要素を取得
 document.addEventListener("DOMContentLoaded",() => {
 
-
 const startButton = document.getElementById("start");
 const revealButton =document.getElementById("reveal");
 const drawButton = document.getElementById("draw"); 
-const battleButton =document.getElementById("buttle");
+const battleButton =document.getElementById("battle");
 
 const playerCards = document.querySelectorAll('.card.you');//アニメーションでの追加
 const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
@@ -40,7 +39,7 @@ startButton.addEventListener("click", () => {
         cards.push(deck.draw());
     }
 
-    [playerCards, ...opponentCards].forEach(card => {
+    [...playerCards, ...opponentCards].forEach(card => {
         card.style.opacity = 0;
     });
     animateDealing(cards);

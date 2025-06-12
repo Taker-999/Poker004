@@ -47,10 +47,10 @@ export function isStraightFlush(cards){ //ストレートフラッシュ判定�
 }
 export function isRoyalFlush(cards){ //ロイヤルフラッシュ判定関数　
     const values =cards.map(card => card.getValue());
-    const isFrushHand =isFrush(cards);
+    const isFlushHand =isFlush(cards);
     const royalSet = new Set(values);
     const isRoyal = [1,10,11,12,13].every(v => royalSet.has(v));
-    return isFrushHand && isRoyal;
+    return isFlushHand && isRoyal;
 }
 
 export function judgeHand(cards){
