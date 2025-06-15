@@ -23,55 +23,65 @@ const battleButton =document.getElementById("battle");
 
 const playerCards = document.querySelectorAll('.card.you');//アニメーションでの追加
 const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
+/*
 const nodes=document.querySelectorAll(".card.you");
+ */
+playerCards.forEach(card => {
+    card.addEventListener("click",() => {
+        card.classList.toggle("selected");
+    new Audio("sounds/haifu.mp3").play();
+    });
+});
 
-
-
-
-//const distributesound =new Audio("sounds/haifu.mp3");//カード配布音を設定
-
-startButton.addEventListener("click", () => {
-
+    function animateDealing(cards){
+        
+            for(let i=0; i<10; i++){    //5×2枚分　10回分
+                setTimeout(() => {
+                    const cardIndex =Math.floor(i / 2);//0~4のカードインデックス
+                    if(i % 2 === 0){
+                        playerCards[cardIndex].style.opacity =1;//偶数ならプレイヤーに配る
+                    } else {
+                        opponentCards[cardIndex].style.opacity =1;//奇数：相手に配る
+                    }
+                    },i*300);
+                }
+            }
+    startButton.addEventListener("click", () => {
     setupGame();
 
     cards =[];
-    for(let i=0; i<5 ;i++){
+    for(let i= 0; i < 5 ; i++) {
         cards.push(deck.draw());
     }
 
     [...playerCards, ...opponentCards].forEach(card => {
         card.style.opacity = 0;
     });
-    animateDealing(cards);
+    new Audio("sounds/haifu.mp3").play();
+    animateDealing();
+
     revealButton.disabled =false;
 });
 
-revealButton.addEventListener("click", ()=> {
+revealButton.addEventListener("click", () => {
     new Audio("sounds/haifu.mp3").play();
 
     cards.forEach((card, i) => {
-        const imgPath ="images/" + String(card.index).padStart(2,"0") + ".png";
-        nodes[i].src = imgPath;
+        const imgPath = "images/" + String(card.index).padStart(2,"0") + ".png";
+        playerCards[i].src = imgPath;
     });
-
 
     const result = judgeHand(cards);
     displayResult(result);
-
- document.querySelectorAll(".card.you").forEach(card => {
-    card.addEventListener("click", () => {
-    card.classList.toggle("selected");
-    new Audio("sounds/haifu.mp3").play();
-        });
-    });
 });
 
 //Drawボタン：新しいカードを配る
 drawButton.addEventListener("click",()=> {
     const selectedIndices =[];
-    document.querySelectorAll(".card.you").forEach((card,i) => {
-        if(card.classList.contains("selected")) 
-            selectedIndices.push(i); 
+    playerCards.forEach((card, i) => {
+        if(card.classList.contains("selected")) {
+            selectedIndices.push(i);
+        }
     });
 
     /*カードを実際に入れ替える（差し替え） */
@@ -79,31 +89,32 @@ drawButton.addEventListener("click",()=> {
         let newCard;
         do{
             newCard =deck.draw();
-        }while(cards.some(c => c.index === newCard.index));
+        } while (cards.some(c => c.index === newCard.index));
 
         cards[index]= newCard;
 
-        const imgPath ="images/"+String(newCard.index).padStart(2,"0")+".png";
-        nodes[index].src= imgPath;
-        nodes[index].classList.remove("selected");
-        
+        const imgPath ="images/"+ String(newCard.index).padStart(2,"0")+".png";
+        playerCards[index].src= imgPath;
+        playerCards[index].classList.remove("selected"); 
        });
+
     const result = judgeHand(cards);
     displayResult(result);
     }); 
 
-    battleButton.addEventListener("click",()=> {
+    battleButton.addEventListener("click",() => {
     const comHand = com.getHand();
     const comHandDiv = document.getElementById("com-hand");
-    comHandDiv.innerHTML = "";//クリア
+    comHandDiv.innerHTML = "";//初期化
+
     comHand.forEach(card => {
         const cardEl = document.createElement("img");
         const index = String(card.index).padStart(2, "0");
         cardEl.src = `images/${index}.png`;
         cardEl.classList.add("card", "opponent");
         comHandDiv.appendChild(cardEl);
- });
-});
+    });
+    });
 });
  /*console.log("draw時のカード", i, ":", card.index); // ← 追加！
  console.log("draw時のパス:", cardImage); // ← 追加！
