@@ -12,40 +12,33 @@ function setupGame(){
     deck.shuffle();
     com =new Com(deck);
 }
-
-//ボタン・カード要素を取得
-document.addEventListener("DOMContentLoaded",() => {
-
-const startButton = document.getElementById("start");
-const revealButton =document.getElementById("reveal");
-const drawButton = document.getElementById("draw"); 
-const battleButton =document.getElementById("battle");
-
-const playerCards = document.querySelectorAll('.card.you');//アニメーションでの追加
-const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
-/*
-const nodes=document.querySelectorAll(".card.you");
- */
-playerCards.forEach(card => {
-    card.addEventListener("click",() => {
-        card.classList.toggle("selected");
-    new Audio("sounds/haifu.mp3").play();
-    });
-});
-
-    function animateDealing(cards){
-        
-            for(let i=0; i<10; i++){    //5×2枚分　10回分
-                setTimeout(() => {
-                    const cardIndex =Math.floor(i / 2);//0~4のカードインデックス
-                    if(i % 2 === 0){
-                        playerCards[cardIndex].style.opacity =1;//偶数ならプレイヤーに配る
-                    } else {
-                        opponentCards[cardIndex].style.opacity =1;//奇数：相手に配る
-                    }
-                    },i*300);
+function animateDealing(playerCards,opponentCards){        
+    for(let i=0; i<10; i++){    //5×2枚分　10回分
+        setTimeout(() => {
+            const cardIndex =Math.floor(i / 2);//0~4のカードインデックス
+            if(i % 2 === 0){
+                playerCards[cardIndex].style.opacity =1;//偶数ならプレイヤーに配る
+                } else {
+                opponentCards[cardIndex].style.opacity =1;//奇数：相手に配る
                 }
-            }
+                },i*300);
+        }
+    }
+function displayResult(resultText){
+    const resultArea = document.getElementById("result-area");
+        if(!resultArea) return;
+        resultArea.textContent = resultText;
+ }
+ //ボタン・カード要素を取得
+document.addEventListener("DOMContentLoaded",() => {
+    const startButton = document.getElementById("start");
+    const revealButton =document.getElementById("reveal");
+    const drawButton = document.getElementById("draw"); 
+    const battleButton =document.getElementById("battle");
+
+    const playerCards = document.querySelectorAll('.card.you');//アニメーションでの追加
+    const opponentCards = document.querySelectorAll('.card.opponent');//アニメーションでの追加
+    
     startButton.addEventListener("click", () => {
     setupGame();
 
@@ -58,7 +51,7 @@ playerCards.forEach(card => {
         card.style.opacity = 0;
     });
     new Audio("sounds/haifu.mp3").play();
-    animateDealing();
+    animateDealing(playerCards,opponentCards);
 
     revealButton.disabled =false;
 });
@@ -97,12 +90,10 @@ drawButton.addEventListener("click",()=> {
         playerCards[index].src= imgPath;
         playerCards[index].classList.remove("selected"); 
        });
+    });
+       
 
-    const result = judgeHand(cards);
-    displayResult(result);
-    }); 
-
-    battleButton.addEventListener("click",() => {
+battleButton.addEventListener("click",() => {
     const comHand = com.getHand();
     const comHandDiv = document.getElementById("com-hand");
     comHandDiv.innerHTML = "";//初期化
@@ -113,8 +104,26 @@ drawButton.addEventListener("click",()=> {
         cardEl.src = `images/${index}.png`;
         cardEl.classList.add("card", "opponent");
         comHandDiv.appendChild(cardEl);
+
     });
+
+    
+    const result = judgeHand(cards);
+    displayResult(result);
+   
+ }); 
+
+
+/*
+const nodes=document.querySelectorAll(".card.you");
+ */
+playerCards.forEach(card => {
+    card.addEventListener("click",() => {
+        card.classList.toggle("selected");
+    new Audio("sounds/haifu.mp3").play();
     });
+});
+
 });
  /*console.log("draw時のカード", i, ":", card.index); // ← 追加！
  console.log("draw時のパス:", cardImage); // ← 追加！
