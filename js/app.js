@@ -62,6 +62,7 @@ revealButton.addEventListener("click", () => {
     cards.forEach((card, i) => {
         const imgPath = "images/" + String(card.index).padStart(2,"0") + ".png";
         playerCards[i].src = imgPath;
+
     });
 
     const result = judgeHand(cards);
@@ -69,7 +70,9 @@ revealButton.addEventListener("click", () => {
 });
 
 //Drawボタン：新しいカードを配る
+
 drawButton.addEventListener("click",()=> {
+
     const selectedIndices =[];
     playerCards.forEach((card, i) => {
         if(card.classList.contains("selected")) {
@@ -88,6 +91,7 @@ drawButton.addEventListener("click",()=> {
 
         const imgPath ="images/"+ String(newCard.index).padStart(2,"0")+".png";
         playerCards[index].src= imgPath;
+        playerCards[index].style.opacity = 1; // 👈 これを追加
         playerCards[index].classList.remove("selected"); 
        });
     });
@@ -125,6 +129,15 @@ playerCards.forEach(card => {
 });
 
 });
+
+
+
+
+
+
+
+
+
  /*console.log("draw時のカード", i, ":", card.index); // ← 追加！
  console.log("draw時のパス:", cardImage); // ← 追加！
 
