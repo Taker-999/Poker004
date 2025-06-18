@@ -78,7 +78,7 @@ drawButton.addEventListener("click",()=> {
         alert("山札が空です！");
         return;
     }
-  /*  
+  
     const selectedIndices =[];
     playerCards.forEach((card, i) => {
         if(card.classList.contains("selected")) {
