@@ -6,6 +6,7 @@ import  Deck  from "./deck.js";
 let deck;
 let cards=[];
 let com;
+let selectedIndices = [];
 
 function setupGame(){
     deck = new Deck();
@@ -73,6 +74,11 @@ revealButton.addEventListener("click", () => {
 
 drawButton.addEventListener("click",()=> {
 
+    if(deck.isEmpty()) {
+        alert("山札が空です！");
+        return;
+    }
+  /*  
     const selectedIndices =[];
     playerCards.forEach((card, i) => {
         if(card.classList.contains("selected")) {
@@ -83,8 +89,18 @@ drawButton.addEventListener("click",()=> {
     /*カードを実際に入れ替える（差し替え） */
     selectedIndices.forEach(index => {
         let newCard;
+        let tries = 0;
+
         do{
+            if(deck.isEmpty()) {
+                alert("山札が足りません");
+                return;
+            }
             newCard =deck.draw();
+            tries++;
+            if(tries >100) {
+
+            }
         } while (cards.some(c => c.index === newCard.index));
 
         cards[index]= newCard;
@@ -94,9 +110,9 @@ drawButton.addEventListener("click",()=> {
         playerCards[index].style.opacity = 1; // 👈 これを追加
         playerCards[index].classList.remove("selected"); 
        });
+       selectedIndices = [];
     });
        
-
 battleButton.addEventListener("click",() => {
     const comHand = com.getHand();
     const comHandDiv = document.getElementById("com-hand");
@@ -116,17 +132,20 @@ battleButton.addEventListener("click",() => {
     displayResult(result);
    
  }); 
-
-
-/*
-const nodes=document.querySelectorAll(".card.you");
- */
-playerCards.forEach(card => {
-    card.addEventListener("click",() => {
-        card.classList.toggle("selected");
-    new Audio("sounds/haifu.mp3").play();
+/*選択追加*/
+    playerCards.forEach((card, index) => {
+        card.addEventListener("click",() => {
+            if(card.classList.contains("selected")){
+                card.classList.remove("selected");
+                card.style.opacity = 1 ;
+                selectedIndices = selectedIndices.filter(i => i !==index);
+            }else{
+                card.classList.add("selected");
+                card.style.opacity =0.5;
+                selectedIndices.push(index);
+            }
+        });
     });
-});
 
 });
 
