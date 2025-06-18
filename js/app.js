@@ -79,7 +79,7 @@ drawButton.addEventListener("click",()=> {
         return;
     }
   
-    const selectedIndices =[];
+    let selectedIndices =[];
     playerCards.forEach((card, i) => {
         if(card.classList.contains("selected")) {
             selectedIndices.push(i);
