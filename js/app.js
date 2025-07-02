@@ -46,12 +46,13 @@ document.addEventListener("DOMContentLoaded",() => {
     cards =[];
     for(let i= 0; i < 5 ; i++) {
         cards.push(deck.draw());
+        new Audio("sounds/haifu.mp3").play();
     }
 
     [...playerCards, ...opponentCards].forEach(card => {
         card.style.opacity = 0;
     });
-    new Audio("sounds/haifu.mp3").play();
+    /*new Audio("sounds/haifu.mp3").play();*/
     animateDealing(playerCards,opponentCards);
 
     revealButton.disabled =false;
