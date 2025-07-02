@@ -122,6 +122,10 @@ battleButton.addEventListener("click",() => {
     const comHand = com.getHand();
     const comHandDiv = document.getElementById("com-hand");
     comHandDiv.innerHTML = "";//初期化
+    // Battleボタンが押されたら、元の裏面カードを非表示にする
+document.querySelectorAll('.opponent-hand .card').forEach(card => {
+  card.style.display = 'none';
+});
 
     comHand.forEach(card => {
         const cardEl = document.createElement("img");
