@@ -111,6 +111,9 @@ drawButton.addEventListener("click",()=> {
         playerCards[index].classList.remove("selected"); 
        });
        selectedIndices = [];
+
+       const result =judgeHand(cards);
+       displayResult(result);
     });
        
 battleButton.addEventListener("click",() => {
