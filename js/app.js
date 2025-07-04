@@ -155,6 +155,10 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
                 card.classList.add("selected");
                 card.style.opacity =0.5;
                 selectedIndices.push(index);
+            
+                //カード選択時に音
+                const audio = new Audio("sounds/haifu.mp3");
+                audio.play();
             }
         });
     });
