@@ -26,7 +26,7 @@ function animateDealing(playerCards,opponentCards){
                 } else {
                 opponentCards[cardIndex].style.opacity =1;//奇数：相手に配る
                 }
-                },i*150);
+                },i*1000);
         }
     }
 function displayResult(resultText){
