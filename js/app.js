@@ -207,10 +207,16 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
 
     if(winner === "player"){
         alert("🎉😊 あなたの勝ち！！");
+         const audio = new Audio("sounds/jajan.mp3");
+         new Audio("sounds/jajan.mp3").play();
     }else if(winner === "com"){
         alert("😓 相手の勝ち...。");
+         const audio = new Audio("sounds/make.mp3");
+         new Audio("sound/make.mp3").play();
     }else{
         alert("🤝引き分け！")
+         const audio =new Audio("sounds/haifu.mp3");
+         new Audio("sounds/haifu.mp3").play();
     }
 
     });
