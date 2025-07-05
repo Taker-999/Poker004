@@ -171,16 +171,34 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
         const comHand =com.getHand();           //相手の手札を取得
         const comResult =judgeHand(comHand);//相手の手札の役
         const playerResult =judgeHand(cards);
-    
+
+        const comRank = handRanks[comResult];
+        const playerRank = handRanks[playerResult];
+     
     let resultText ="";
-    
+    let winner ="";
+
+
     //判定ロジック
-    if(comResult === playerResult) {
-        resultText =`引き分け！（両者${playerResult})`;
+    if(playerRank > comRank) {
+        resultText =`あなたの勝ち！ あなた:${playerResult} vs 相手:${comResult}`;
+        winner ="player";
+    }else if(playerRank <comRank){
+        resultText =`相手の勝ち！あなた:${playerResult} vs 相手:${comResult}`;
+        winner ="com";
     }else{
-        resultText =`あなた:${playerResult} vs 相手:${comResult}`;
+        resultText=`引き分け！（両者${playerResult})`;
+        winner ="draw";
     }
      displayResult(resultText); //上部に表示
+    if(winner === "player"){
+        alert("🎉😊 あなたの勝ち！！");
+    }else if(winner === "com"){
+        alert("😓 相手の勝ち...。");
+    }else{
+        alert("🤝引き分け！")
+    }
+
     });
 
 });
