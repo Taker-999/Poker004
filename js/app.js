@@ -168,7 +168,7 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
     const gameResultButton = document.getElementById("game-result");
 
     gameResultButton.addEventListener("click",() => {
-        const comHand =comHand();           //相手の手札を取得
+        const comHand =com.getHand();           //相手の手札を取得
         const comResult =judgeHand(comHand);//相手の手札の役
         const playerResult =judgeHand(cards);
     
