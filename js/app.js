@@ -3,6 +3,19 @@ import { judgeHand } from "./judge.js";
 import Com from "./com.js";
 import  Deck  from "./deck.js";
 
+const handRanks = {
+    "役なし":0,
+    "1ペア":1,
+    "2ペア":2,
+    "スリーカード":3,
+    "ストレート":4,
+    "フラッシュ":5,
+    "フルハウス":6,
+    "フォーカード":7,
+    "ストレートフラッシュ":8,
+    "ロイヤルフラッシュ":9
+};
+
 let deck;
 let cards=[];
 let com;
@@ -187,10 +200,11 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
         resultText =`相手の勝ち！あなた:${playerResult} vs 相手:${comResult}`;
         winner ="com";
     }else{
-        resultText=`引き分け！（両者${playerResult})`;
+        resultText = `引き分け！（両者: ${playerResult}) `;
         winner ="draw";
     }
      displayResult(resultText); //上部に表示
+
     if(winner === "player"){
         alert("🎉😊 あなたの勝ち！！");
     }else if(winner === "com"){

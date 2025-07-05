@@ -63,15 +63,15 @@ export function judgeHand(cards){
 
     const counts =Object.values(count).sort((a,b) => b-a);
 
-    if(isRoyalFlush(cards)) return"ロイヤルフラッシュ完成!";
-    if(isStraightFlush(cards)) return"ストレートフラッシュ完成！";
-    if(counts[0]=== 4) return "フォーカード完成！";
-    if(counts[0]=== 3 && counts[1]===2) return "フルハウス完成！";
-    if(isFlush(cards)) return"フラッシュ完成！";
-    if(isStraight(values)) return "ストレート完成！";
-    if(counts[0]=== 3) return "スリーカード完成！";
-    if(counts[0]=== 2 && counts[1]===2) return "2ペア完成！";
-    if(isOnepair(cards)) return "1ペア完成！" ;
+    if(isRoyalFlush(cards)) return"ロイヤルフラッシュ";
+    if(isStraightFlush(cards)) return"ストレートフラッシュ";
+    if(counts[0]=== 4) return "フォーカード";
+    if(counts[0]=== 3 && counts[1]===2) return "フルハウス";
+    if(isFlush(cards)) return"フラッシュ";
+    if(isStraight(values)) return "ストレート";
+    if(counts[0]=== 3) return "スリーカード";
+    if(counts[0]=== 2 && counts[1]===2) return "2ペア";
+    if(isOnepair(cards)) return "1ペア" ;
 
     return "役なし";
 }
