@@ -165,6 +165,23 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
             }
         });
     });
+    const gameResultButton = document.getElementById("game-result");
+
+    gameResultButton.addEventListener("click",() => {
+        const comHand =comHand();           //相手の手札を取得
+        const comResult =judgeHand(comHand);//相手の手札の役
+        const playerResult =judgeHand(cards);
+    
+    let resultText ="";
+    
+    //判定ロジック
+    if(comResult === playerResult) {
+        resultText =`引き分け！（両者${playerResult})`;
+    }else{
+        resultText =`あなた:${playerResult} vs 相手:${comResult}`;
+    }
+     displayResult(resultText); //上部に表示
+    });
 
 });
 
