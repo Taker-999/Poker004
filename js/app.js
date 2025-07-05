@@ -26,7 +26,7 @@ function animateDealing(playerCards,opponentCards){
                 } else {
                 opponentCards[cardIndex].style.opacity =1;//奇数：相手に配る
                 }
-                },i*600);
+                },i*500);
         }
     }
 function displayResult(resultText){
@@ -119,6 +119,9 @@ drawButton.addEventListener("click",()=> {
 
        const result =judgeHand(cards);
        displayResult(result);
+
+       const audio =new Audio("sounds/kettei.mp3");
+       new Audio("sounds/kettei.mp3").play();
     });
        
 battleButton.addEventListener("click",() => {
