@@ -112,6 +112,8 @@ drawButton.addEventListener("click",()=> {
     });
 if(selectedIndices.length === 0){
     displayMesseage("カードを選択してからDrawボタンを押して下さい。");
+    /*const audio =new Audio("sounds/kettei.mp3");*/
+    new Audio("sounds/error.mp3").play();
     return;
 }
 
