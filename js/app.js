@@ -212,7 +212,7 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
     }else if(winner === "com"){
         alert("😓 相手の勝ち...。");
          const audio = new Audio("sounds/shogeru.mp3");
-         new Audio("sound/shogeru.mp3").play();
+         new Audio("sounds/shogeru.mp3").play();
     }else{
         alert("🤝引き分け！")
          const audio =new Audio("sounds/haifu.mp3");
