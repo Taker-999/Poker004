@@ -47,6 +47,10 @@ function displayResult(resultText){
         if(!resultArea) return;
         resultArea.textContent = resultText;
  }
+function displayMesseage(messeageText) {
+ const messeageArea =document.getElementById("messeage");
+        messeageArea.textContent = messeageText;
+}
  //ボタン・カード要素を取得
 document.addEventListener("DOMContentLoaded",() => {
     const startButton = document.getElementById("start");
@@ -96,13 +100,20 @@ drawButton.addEventListener("click",()=> {
         alert("山札が空です！");
         return;
     }
-  
+  //メッセージエリア初期化
+  displayMesseage("");
+
     let selectedIndices =[];
     playerCards.forEach((card, i) => {
         if(card.classList.contains("selected")) {
             selectedIndices.push(i);
+        
         }
     });
+if(selectedIndices.length === 0){
+    displayMesseage("カードを選択してからDrawボタンを押して下さい。");
+    return;
+}
 
     /*カードを実際に入れ替える（差し替え） */
     selectedIndices.forEach(index => {
