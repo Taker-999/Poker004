@@ -231,7 +231,7 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
     }else{
         alert("🤝引き分け！")
          const audio =new Audio("sounds/haifu.mp3");
-         new Audio("sounds/haifu.mp3").play();
+         new Audio("sounds/hikiwake.mp3").play();
     }
 
     });
