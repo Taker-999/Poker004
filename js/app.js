@@ -24,14 +24,14 @@ let selectedIndices = [];
 function setupGame(){
     deck = new Deck();
     deck.shuffle();
-    com =new Com(deck);
+    com = new Com(deck);
     com.drawHand();
 }
 function animateDealing(playerCards,opponentCards){        
     for(let i=0; i<10; i++){    //5×2枚分　10回分
         setTimeout(() => {
-            const cardIndex =Math.floor(i / 2);//0~4のカードインデックス
-            const audio =new Audio("sounds/haifu.mp3");
+            const cardIndex = Math.floor(i / 2);//0~4のカードインデックス
+            const audio = new Audio("sounds/haifu.mp3");
             audio.play();//配布毎に再生
 
             if(i % 2 === 0){
@@ -48,7 +48,7 @@ function displayResult(resultText){
         resultArea.textContent = resultText;
  }
 function displayMesseage(messeageText) {
- const messeageArea =document.getElementById("messeage");
+    const messeageArea = document.getElementById("messeage");
         messeageArea.textContent = messeageText;
 }
  //ボタン・カード要素を取得
@@ -171,7 +171,9 @@ document.querySelectorAll('.opponent-hand .card').forEach(card => {
     
     const result = judgeHand(cards);
     displayResult(result);
-   
+    
+    const audio = new Audio("sonuds/battle.mp3");
+    new Audio ("sounds/battle.mp3").play();
  }); 
 /*選択追加*/
     playerCards.forEach((card, index) => {
